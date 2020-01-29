@@ -5,6 +5,29 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(janitor)
+library(tidymetrics)
+library(lubridate)
+```
+
+```{r import_data}
+questions_raw <- read_csv("Questions.csv") %>% clean_names()
+tags_raw <- read_csv("Tags.csv") %>% clean_names()
+
+tags <- tags_raw %>% 
+  filter(!is.na(tag)) %>% 
+  group_by(id) %>% 
+  mutate(row_number = row_number()) %>% 
+  filter(row_number == 1)
+
+questions <- questions_raw %>% 
+  filter(!is.na(owner_user_id)) %>% 
+  left_join(tags_raw, by = "id") %>% 
+  mutate(tag = replace_na(tag, "None")) %>% 
+  filter(tag %in% c("dplyr", "ggplot2", "shiny", "data.table", "regex", "python", "statistics", "package", "None")) %>% 
+  mutate(date = as.Date(creation_date))
 ```
 
 ### cross_by_periods()
