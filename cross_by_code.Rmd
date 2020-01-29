@@ -1,5 +1,5 @@
 ---
-title: "Untitled"
+title: "Code to accompany RStudio 2020 lightning talk"
 output: html_document
 ---
 
@@ -32,8 +32,7 @@ questions %>%
   summarize(nb_questions = n())
 ```
 
-
-but to really wow them:
+but to really wow them, combine the two!
 ```{r}
 questions %>% 
   cross_by_periods("week") %>% 
