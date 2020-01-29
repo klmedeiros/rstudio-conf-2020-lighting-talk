@@ -1,0 +1,45 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### cross_by_periods()
+
+# of questions in weeks, months:
+```{r}
+questions %>% 
+  cross_by_periods(c("week", "month")) %>% 
+  summarize(nb_questions = n()) %>% 
+  arrange(desc(date))
+```
+
+Rolling 28-day # of questions:
+```{r}
+questions %>% 
+  cross_by_periods(windows = c(28)) %>% 
+  summarize(nb_questions = n()) %>% 
+  arrange(desc(date))
+```
+
+### cross_by_dimensions()
+```{r}
+questions %>% 
+  cross_by_dimensions(tag) %>% 
+  summarize(nb_questions = n())
+```
+
+
+but to really wow them:
+```{r}
+questions %>% 
+  cross_by_periods("week") %>% 
+  cross_by_dimensions(tag) %>% 
+  summarize(nb_questions = n()) %>% 
+  arrange(desc(date)) %>% 
+  head(20)
+```
+
